@@ -1,5 +1,8 @@
 # async-shared-mutex
 
+[![npm Package](https://img.shields.io/npm/v/async-shared-mutex?logo=npm "async-shared-mutex")](https://www.npmjs.com/package/async-shared-mutex)
+
+
 Lightweight shared (reader) / exclusive (writer) mutex for TypeScript / ESM. Two flavors:
 
 * `SharedMutex` – low‑level handle based API (you manage the critical section).
