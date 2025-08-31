@@ -1,7 +1,7 @@
 {
   "name": "async-shared-mutex",
   "version": "0.0.0",
-  "description": "",
+  "description": "Lightweight async reader–writer (shared/exclusive) mutex",
   "type": "module",
   "main": "./build/index.js",
   "exports": {
@@ -19,7 +19,13 @@
     "lint": "eslint .",
     "prepare": "npm run build"
   },
-  "keywords": [],
+  "keywords": [
+    "async",
+    "mutex",
+    "shared-mutex",
+    "lock",
+    "promise"
+  ],
   "repository": "github:PaperStrike/async-shared-mutex",
   "license": "MIT",
   "files": [
