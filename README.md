@@ -6,7 +6,7 @@
 Lightweight shared (reader) / exclusive (writer) mutex for TypeScript / ESM. Two flavors:
 
 * `SharedMutex` – low‑level handle based API (you manage the critical section).
-* `AsyncSharedMutex` – convenience API that runs a function while holding the lock.
+* `AsyncSharedMutex` – convenience API that runs a function while holding the mutex.
 
 Both support shared (concurrent) and exclusive (mutually exclusive) acquisition.
 
@@ -86,7 +86,7 @@ Use for coordinating access to a resource where:
 * An exclusive waits for all currently active (or already queued *before it*) shared holders to finish, then runs alone.
 * Shared acquisitions requested **after** an exclusive has queued must wait until that exclusive finishes.
 * Exclusives are serialized in request order.
-* Errors inside a task (or your critical section) propagate; the lock still releases.
+* Errors inside a task (or your critical section) propagate; the mutex is still unlocked.
 * `try*` variants attempt an instantaneous acquisition; they return `null` if not immediately possible (no waiting side effects).
 
 This gives predictable writer progress (no writer starvation) while still batching readers that arrive before the next writer.
@@ -95,7 +95,7 @@ This gives predictable writer progress (no writer starvation) while still batchi
 
 ### `class SharedMutex`
 
-Low level; you get handles you must release.
+Low level; you get locks you must unlock.
 
 | Method | Returns | Description |
 | ------ | ------- | ----------- |

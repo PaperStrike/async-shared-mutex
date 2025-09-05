@@ -30,7 +30,7 @@ type UnlockPromise = Promise<void>
  *  - `lockShared()` / `tryLockShared()` for shared ownership
  *
  * Lifecycle:
- *  - Exclusive lock waits for all previously outstanding locks (shared or exclusive) to release before acquiring.
+ *  - Exclusive lock waits for all previously outstanding locks (shared or exclusive) to be unlocked before acquiring.
  *  - New shared locks can start if no exclusive is active or pending ahead of them.
  */
 export default class SharedMutex {
