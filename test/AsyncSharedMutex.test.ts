@@ -99,7 +99,7 @@ test.describe('AsyncSharedMutex', () => {
     expect(idxExclusiveEnd).toBeLessThan(idxS2)
   })
 
-  test('tryLock succeeds only when free and releases automatically', async () => {
+  test('tryLock succeeds only when mutex is free and unlocks automatically', async () => {
     const mtx = new AsyncSharedMutex()
     let inLock = false
 
@@ -148,7 +148,7 @@ test.describe('AsyncSharedMutex', () => {
     expect(maxConcurrent).toBeGreaterThan(1)
   })
 
-  test('error in task still releases lock for subsequent tasks', async () => {
+  test('error in task still unlocks mutex for subsequent tasks', async () => {
     const mtx = new AsyncSharedMutex()
     await expect(async () => {
       await mtx.lock(async () => {

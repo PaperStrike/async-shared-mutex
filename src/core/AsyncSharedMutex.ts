@@ -11,7 +11,7 @@ export type Task<T> = () => (T | PromiseLike<T>)
  *  - `lockShared()` / `tryLockShared()` for shared ownership
  *
  * Lifecycle:
- *  - Exclusive task waits for all previously outstanding tasks (shared or exclusive) to release before acquiring.
+ *  - Exclusive task waits for all previously outstanding tasks (shared or exclusive) to unlock before acquiring.
  *  - New shared tasks can start if no exclusive is active or pending ahead of them.
  */
 export default class AsyncSharedMutex {
@@ -46,7 +46,7 @@ export default class AsyncSharedMutex {
       return await task()
     }
     finally {
-      handle.release()
+      handle.unlock()
     }
   }
 }

@@ -44,7 +44,7 @@ try {
   await doWrite()
 }
 finally {
-  exclusive.release()
+  exclusive.unlock()
 }
 
 // Shared
@@ -54,7 +54,7 @@ try {
   console.log(v)
 }
 finally {
-  shared.release()
+  shared.unlock()
 }
 ```
 
@@ -65,12 +65,12 @@ import { SharedMutex } from 'async-shared-mutex'
 const mtx = new SharedMutex()
 
 async function doStuff() {
-  using lock = await mtx.lock() // releases automatically at end of scope
+  using lock = await mtx.lock() // unlocks automatically at end of scope
   await mutate()
 }
 ```
 
-> If your runtime lacks native `Symbol.dispose`, add a small polyfill (see `test/helpers/patchDisposable.ts` for an example) or keep calling `release()` manually.
+> If your runtime lacks native `Symbol.dispose`, add a small polyfill (see `test/helpers/patchDisposable.ts` for an example) or keep calling `unlock()` manually.
 
 ## When to use
 
@@ -106,12 +106,12 @@ Low level; you get handles you must release.
 
 `LockHandle`:
 
-* `release(): void` – idempotent; may be called multiple times.
-* `[Symbol.dispose]()` – same as `release()` enabling `using`.
+* `unlock(): void` – idempotent; may be called multiple times.
+* `[Symbol.dispose]()` – same as `unlock()` enabling `using`.
 
 ### `class AsyncSharedMutex`
 
-Wraps `SharedMutex` and runs a function while holding the lock.
+Wraps `SharedMutex` and runs a function while holding the mutex.
 
 | Method | Returns | Description |
 | ------ | ------- | ----------- |
@@ -124,7 +124,7 @@ Wraps `SharedMutex` and runs a function while holding the lock.
 
 ### Error handling
 
-If `task` throws / rejects, the lock is released and the error is re-thrown. No additional wrapping.
+If `task` throws / rejects, the mutex is unlocked and the error is re-thrown. No additional wrapping.
 
 ### Ordering example
 
@@ -159,7 +159,7 @@ export async function getSnapshot(): Promise<Snapshot> {
     return snapshot()
   }
   finally {
-    h.release()
+    h.unlock()
   }
 }
 ```
@@ -179,7 +179,7 @@ Modern Node / browsers, ES2022.
 | | `SharedMutex` | `AsyncSharedMutex` |
 | - | - | - |
 | Style | Manual handles | Higher level task runner |
-| Cleanup | Call `release()` / `using` | Automatic around function |
+| Cleanup | Call `unlock()` / `using` | Automatic around function |
 | Overhead | Slightly lower | Wrapper promise per task |
 
 ## License
