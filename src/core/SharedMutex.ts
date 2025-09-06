@@ -4,10 +4,30 @@ import { defer } from '../utils/ponyfill'
  * A disposable that unlocks the mutex (shared or exclusive) when disposed.
  */
 export class LockHandle implements Disposable {
-  public constructor(
-    public unlock: () => void,
-  ) {}
+  protected unlockFn: (() => void) | null
 
+  /**
+  * @param unlockFn Closure that performs the actual unlock. It will be invoked
+  * once and then dereferenced to ensure idempotence and allow any captured
+  * state to be garbage-collected.
+   */
+  public constructor(
+    unlockFn: (() => void),
+  ) {
+    this.unlockFn = unlockFn
+  }
+
+  /**
+   * Release the lock. Safe to call multiple times; subsequent calls are no-ops.
+   */
+  public unlock() {
+    if (this.unlockFn !== null) {
+      this.unlockFn()
+      this.unlockFn = null
+    }
+  }
+
+  /** Support the `using`/disposable pattern by delegating to `unlock()`. */
   public [Symbol.dispose]() {
     this.unlock()
   }
@@ -108,12 +128,9 @@ export default class SharedMutex {
   protected createAcquiredLock(): [handle: LockHandle, unlockPromise: UnlockPromise] {
     const { promise: unlockPromise, resolve: resolveUnlock } = defer()
 
-    let hasUnlocked = false
     this.lockCount++
 
     const unlock = () => {
-      if (hasUnlocked) return
-      hasUnlocked = true
       this.lockCount--
 
       resolveUnlock()
