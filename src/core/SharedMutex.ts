@@ -64,7 +64,7 @@ export default class SharedMutex {
   protected lockCount = 0
 
   public lock(): LockPromise {
-  // If there are shared holders batched, drain (wait for) them before this exclusive.
+    // If there are shared holders batched, drain (wait for) them before this exclusive.
     if (this.sharedGroup.length > 0) {
       this.exclusiveTail = Promise.all(this.sharedGroup).then(() => undefined)
       this.sharedGroup = []
@@ -92,7 +92,7 @@ export default class SharedMutex {
   }
 
   public tryLockShared(): LockHandle | null {
-  // If lockCount exceeds sharedGroup length, an exclusive lock is active (or already queued).
+    // If lockCount exceeds sharedGroup length, an exclusive lock is active (or already queued).
     if (this.lockCount > this.sharedGroup.length) {
       return null
     }
@@ -128,10 +128,10 @@ export default class SharedMutex {
   protected createAcquiredLock(): [handle: LockHandle, unlockPromise: UnlockPromise] {
     const { promise: unlockPromise, resolve: resolveUnlock } = defer()
 
-    this.lockCount++
+    this.recordLock()
 
     const unlock = () => {
-      this.lockCount--
+      this.recordUnlock()
 
       resolveUnlock()
     }
@@ -140,5 +140,13 @@ export default class SharedMutex {
       new LockHandle(unlock),
       unlockPromise,
     ]
+  }
+
+  protected recordLock() {
+    this.lockCount++
+  }
+
+  protected recordUnlock() {
+    this.lockCount--
   }
 }
