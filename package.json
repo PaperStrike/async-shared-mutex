@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Lightweight async reader–writer (shared/exclusive) mutex",
   "type": "module",
+  "sideEffects": false,
   "main": "./build/index.js",
   "exports": {
     ".": {
