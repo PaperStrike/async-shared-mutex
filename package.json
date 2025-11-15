@@ -14,11 +14,11 @@
   },
   "scripts": {
     "test": "playwright test",
-    "build": "npm run build:type && npm run build:js",
+    "build": "pnpm run build:type && pnpm run build:js",
     "build:type": "tsc -b --noCheck --emitDeclarationOnly",
     "build:js": "esbuild src/index.ts --outdir=build --target=es2022 --format=esm --packages=external --sourcemap --bundle --minify",
     "lint": "eslint .",
-    "prepare": "npm run build"
+    "prepare": "pnpm run build"
   },
   "keywords": [
     "async",
