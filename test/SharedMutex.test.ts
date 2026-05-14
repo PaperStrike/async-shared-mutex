@@ -36,6 +36,7 @@ test.describe('LockHandle', () => {
 
     // capture o in closure
     const handle = new LockHandle(((o: object) => () => void o)(obj))
+    // eslint-disable-next-line no-useless-assignment
     obj = null
 
     // Before unlock, obj is still referenced by the closure in handle

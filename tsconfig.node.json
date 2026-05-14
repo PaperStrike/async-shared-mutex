@@ -3,10 +3,11 @@
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true,
-    "tsBuildInfoFile": "./build/cache/eslint.tsbuildinfo",
+    "tsBuildInfoFile": "./build/cache/node.tsbuildinfo",
     "types": ["node"]
   },
   "include": [
-    "eslint.config.mjs"
+    "eslint.config.mjs",
+    "tsdown.config.ts"
   ]
 }

@@ -4,19 +4,13 @@
   "description": "Lightweight async reader–writer (shared/exclusive) mutex",
   "type": "module",
   "sideEffects": false,
-  "main": "./build/index.js",
   "exports": {
-    ".": {
-      "types": "./build/index.d.ts",
-      "import": "./build/index.js"
-    },
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "scripts": {
     "test": "playwright test",
-    "build": "pnpm run build:type && pnpm run build:js",
-    "build:type": "tsc -b --noCheck --emitDeclarationOnly",
-    "build:js": "esbuild src/index.ts --outdir=build --target=es2022 --format=esm --packages=external --sourcemap --bundle --minify",
+    "build": "tsdown",
     "lint": "eslint .",
     "prepare": "pnpm run build"
   },
@@ -30,24 +24,23 @@
   "repository": "github:PaperStrike/async-shared-mutex",
   "license": "MIT",
   "files": [
-    "build",
-    "!build/cache",
+    "dist",
     "!*.tsbuildinfo",
     "CHANGELOG.*"
   ],
   "devDependencies": {
-    "@eslint/compat": "^2.0.0",
-    "@eslint/js": "^9.39.1",
-    "@eslint/markdown": "^7.5.1",
-    "@playwright/test": "^1.56.1",
-    "@stylistic/eslint-plugin": "^5.5.0",
-    "@types/node": "^24.10.1",
-    "dedent": "^1.7.0",
-    "esbuild": "~0.27.0",
-    "eslint": "^9.39.1",
-    "jest-leak-detector": "^30.2.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.4"
+    "@eslint/config-helpers": "^0.6.0",
+    "@eslint/js": "^10.0.1",
+    "@eslint/markdown": "^8.0.1",
+    "@playwright/test": "^1.60.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^25.7.0",
+    "dedent": "^1.7.2",
+    "eslint": "^10.3.0",
+    "jest-leak-detector": "^30.4.1",
+    "tsdown": "^0.22.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3"
   },
-  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
+  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499"
 }
