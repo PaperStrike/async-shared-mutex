@@ -6,4 +6,8 @@ export default defineConfig({
   platform: 'neutral',
   minify: true,
   exports: true,
+  tsconfig: 'tsconfig.build.json',
+  dts: {
+    build: true,
+  },
 })
