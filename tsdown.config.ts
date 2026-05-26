@@ -5,7 +5,9 @@ export default defineConfig({
   target: 'es2022',
   platform: 'neutral',
   minify: true,
-  exports: true,
+  exports: {
+    legacy: true,
+  },
   tsconfig: 'tsconfig.build.json',
   dts: {
     build: true,
