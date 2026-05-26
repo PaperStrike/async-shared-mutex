@@ -24,7 +24,10 @@
     "lock",
     "promise"
   ],
-  "repository": "github:PaperStrike/async-shared-mutex",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaperStrike/async-shared-mutex.git"
+  },
   "license": "MIT",
   "files": [
     "dist",
